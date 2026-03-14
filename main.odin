@@ -55,7 +55,11 @@ main :: proc() {
 		}
 
 		rl.BeginDrawing()
+
+		// To leave a trail, comment ClearBackground and uncomment the 1st DrawRectangle.
 		rl.ClearBackground(rl.BLACK)
+		// rl.DrawRectangle(0, 0, WIDTH, HEIGHT, rl.Color{0, 0, 0, 5})
+
 		rl.DrawRectangle(i32(x), i32(y), box_w, box_h, rl.WHITE)
 		rl.EndDrawing()
 	}
