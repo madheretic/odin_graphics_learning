@@ -14,8 +14,6 @@ main :: proc() {
 	box_pos := Vec2{(WIDTH / 2) - f32(box_size) / 2, (HEIGHT / 2) - f32(box_size) / 2}
 	speed: f32 = 100
 
-	boost_timer: f32 = 0
-
 	for !rl.WindowShouldClose() {
 
 		// Multiplying by delta time ensures consistent frame rate.
@@ -48,9 +46,26 @@ main :: proc() {
 		// Bounds check
 		vec2_wrap(&box_pos, f32(WIDTH), f32(HEIGHT))
 
+		mouse := rl.GetMousePosition()
+		box_to_mouse := vec2_sub(Vec2{mouse.x, mouse.y}, box_pos)
+		// Direction vector facing the mouse from player box
+		box_to_mouse_normalized := vec2_normalize(box_to_mouse)
+
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BLACK)
-		draw_box(box_pos, box_size, box_size, rl.RAYWHITE)
+
+		// Player box
+		rl.DrawRectangle(i32(box_pos.x), i32(box_pos.y), box_size, box_size, rl.RAYWHITE)
+
+		// Vector from player box to mouse cursor
+		rl.DrawLine(
+			i32(box_pos.x) + box_size / 2,
+			i32(box_pos.y) + box_size / 2,
+			i32(mouse.x),
+			i32(mouse.y),
+			rl.RED,
+		)
+
 		rl.EndDrawing()
 	}
 
